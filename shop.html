@@ -1,114 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom T-Shirts Shop</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Custom T-Shirts Shop</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
 
-        header {
-            background-color: #222;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-        }
+    header {
+      background-color: #222;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
 
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 30px;
-        }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
 
-        .product-card {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            overflow: hidden;
-            text-align: center;
-            padding: 20px;
-        }
+    .product-card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      text-align: center;
+      padding: 20px;
+    }
 
-        .product-card img {
-            width: 100%;
-            height: auto;
-            border-radius: 5px;
-        }
+    .product-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
 
-        .product-card h3 {
-            margin: 15px 0 10px;
-        }
+    .product-card h3 {
+      margin: 15px 0 10px;
+    }
 
-        .price {
-            color: #27ae60;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+    .price {
+      color: #27ae60;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
 
-        .btn {
-            background-color: #000;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+    .btn {
+      background-color: #000;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
 
-        .btn:hover {
-            background-color:  #f68b1e;
-        }
+    .btn:hover {
+      background-color: #f68b1e;
+    }
 
-        footer {
-            background-color: #222;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            margin-top: 40px;
-        }
-    </style>
+    footer {
+      background-color: #222;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+
+    #cart-icon {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      color: white;
+    }
+
+    #cart-modal {
+      display: none;
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      width: 300px;
+      background-color: white;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      border-radius: 10px;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    #cart-modal h3 {
+      margin-top: 0;
+    }
+
+    #cart-items {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    #checkout-btn {
+      margin-top: 15px;
+      width: 100%;
+      background-color:#f68b1e;
+    }
+
+    .cart-item {
+      border-bottom: 1px solid #eee;
+      padding: 8px 0;
+    }
+
+    .close-btn {
+      float: right;
+      cursor: pointer;
+      color: #888;
+    }
+
+  </style>
 </head>
 <body>
 
-    <header>
+  <header>
+    <i class="fas fa-shopping-cart" id="cart-icon"></i>
     <img src="logo.png" alt="The Memes Patrika Logo" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; display: block; margin: 0 auto 15px; border: 3px solid #fff; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
-        <h1>Custom T-Shirts Shop</h1>
-        <p>Express your vibe with our unique designs!</p>
-    </header>
+    <h1>Custom T-Shirts Shop</h1>
+    <p>Express your vibe with our unique designs!</p>
+  </header>
 
-    <section class="products">
-        <div class="product-card">
-            <img src="tshirt1.png" alt="T-Shirt 1">
-            <h3>Funny Meme Tee</h3>
-            <p class="price">₹499</p>
-            <button class="btn">Add to Cart</button>
-        </div>
+  <section class="products">
+    <div class="product-card">
+      <img src="tshirt1.png" alt="T-Shirt 1">
+      <h3>Funny Meme Tee</h3>
+      <p class="price">₹499</p>
+      <button class="btn" onclick="addToCart('Funny Meme Tee', 499)">Add to Cart</button>
+    </div>
 
-        <div class="product-card">
-            <img src="tshirt2.jpg" alt="T-Shirt 2">
-            <h3>Custom Logo Tee</h3>
-            <p class="price">₹599</p>
-            <button class="btn">Add to Cart</button>
-        </div>
+    <div class="product-card">
+      <img src="tshirt2.png" alt="T-Shirt 2">
+      <h3>Custom Logo Tee</h3>
+      <p class="price">₹599</p>
+      <button class="btn" onclick="addToCart('Custom Logo Tee', 599)">Add to Cart</button>
+    </div>
 
-        <div class="product-card">
-            <img src="tshirt3.jpg" alt="T-Shirt 3">
-            <h3>Minimalist Desi Meme Tee</h3>
-            <p class="price">₹549</p>
-            <button class="btn">Add to Cart</button>
-        </div>
-    </section>
+    <div class="product-card">
+      <img src="tshirt3.png" alt="T-Shirt 3">
+      <h3>Desi Meme Tee</h3>
+      <p class="price">₹549</p>
+      <button class="btn" onclick="addToCart('Minimalist Desi Meme Tee', 549)">Add to Cart</button>
+    </div>
+  </section>
 
-    <footer>
-        &copy; 2025 The Memes Patrika | All rights reserved
-    </footer>
+  <div id="cart-modal">
+    <span class="close-btn" onclick="toggleCart()">✖</span>
+    <h3>Your Cart</h3>
+    <div id="cart-items"></div>
+    <button class="btn" id="checkout-btn" onclick="checkout()">Go to Payment</button>
+  </div>
+
+  <footer>
+    &copy; 2025 The Memes Patrika | All rights reserved
+  </footer>
+
+  <script>
+    let cart = [];
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      alert(name + " added to cart!");
+    }
+
+    function toggleCart() {
+      const modal = document.getElementById('cart-modal');
+      modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+      displayCartItems();
+    }
+
+    function displayCartItems() {
+      const itemsContainer = document.getElementById('cart-items');
+      itemsContainer.innerHTML = '';
+      let total = 0;
+      cart.forEach((item, index) => {
+        total += item.price;
+        itemsContainer.innerHTML += `
+          <div class="cart-item">
+            ${item.name} - ₹${item.price}
+          </div>
+        `;
+      });
+
+      if (cart.length === 0) {
+        itemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+      } else {
+        itemsContainer.innerHTML += `<p><strong>Total: ₹${total}</strong></p>`;
+      }
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert("Cart is empty!");
+        return;
+      }
+      let total = cart.reduce((sum, item) => sum + item.price, 0);
+      alert("Redirecting to payment... Total amount: ₹" + total);
+      // You can replace this with real payment gateway logic (like Razorpay, Paytm, etc.)
+      window.location.href = "payment.html"; // <-- Link to your actual payment page
+    }
+
+    // Open cart on icon click
+    document.getElementById("cart-icon").addEventListener("click", toggleCart);
+  </script>
 
 </body>
 </html>
