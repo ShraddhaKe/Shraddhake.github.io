@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Custom T-Shirts Shop</title>
+  <title>Custom Unique Shop</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body {
@@ -129,45 +129,18 @@
   <header>
     <i class="fas fa-shopping-cart" id="cart-icon"></i>
     <img src="logo.png" alt="The Memes Patrika Logo" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; display: block; margin: 0 auto 15px; border: 3px solid #fff; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
-    <h1>Custom T-Shirts Shop</h1>
+    <h1>Custom Unique Shop</h1>
     <p>Express your vibe with our unique designs!</p>
   </header>
 
-  <section class="products">
-    <div class="product-card">
-      <img src="tshirt1.png" alt="T-Shirt 1">
-      <h3>Funny Meme Tee</h3>
-      <p class="price">₹499</p>
-      <button class="btn" onclick="addToCart('Funny Meme Tee', 499)">Add to Cart</button>
-    </div>
-
-    <div class="product-card">
-      <img src="tshirt2.png" alt="T-Shirt 2">
-      <h3>Custom Logo Tee</h3>
-      <p class="price">₹599</p>
-      <button class="btn" onclick="addToCart('Custom Logo Tee', 599)">Add to Cart</button>
-    </div>
-
-    <div class="product-card">
-      <img src="tshirt3.png" alt="T-Shirt 3">
-      <h3>Desi Meme Tee</h3>
-      <p class="price">₹549</p>
-      <button class="btn" onclick="addToCart('Desi Meme Tee', 549)">Add to Cart</button>
-    </div>
-
-    <div class="product-card">
-      <img src="cup1.png" alt="T-Shirt 3">
-      <h3>Custom Cup</h3>
-      <p class="price">₹549</p>
-      <button class="btn" onclick="addToCart('Custom Cup', 549)">Add to Cart</button>
-    </div>
-  </section>
+  <section class="products"></section>
 
   <div id="cart-modal">
     <span class="close-btn" onclick="toggleCart()">✖</span>
     <h3>Your Cart</h3>
     <div id="cart-items"></div>
     <button class="btn" id="checkout-btn" onclick="checkout()">Go to Payment</button>
+    <button class="btn" style="margin-top: 10px; background: #3498db; width: 100%;" onclick="goToHome()">Go to Home</button>
   </div>
 
   <footer>
@@ -176,6 +149,72 @@
 
   <script>
     let cart = [];
+    const isAdmin = sessionStorage.getItem("role") === "admin";
+
+    const defaultProducts = [
+      { name: "Funny Meme Tee", price: 499, img: "tshirt1.png" },
+      { name: "Custom Logo Tee", price: 599, img: "tshirt2.png" },
+      { name: "Desi Meme Tee", price: 549, img: "tshirt3.png" },
+      { name: "Custom Cup", price: 549, img: "cup1.png" },
+      { name: "Custom Cup", price: 549, img: "cup2.png" },
+    ];
+
+    function saveProducts(products) {
+      localStorage.setItem("shop-products", JSON.stringify(products));
+    }
+
+    function loadProducts() {
+      const saved = localStorage.getItem("shop-products");
+      return saved ? JSON.parse(saved) : defaultProducts;
+    }
+
+    function renderProducts() {
+      const productsSection = document.querySelector(".products");
+      productsSection.innerHTML = "";
+
+      const products = loadProducts();
+
+      products.forEach((product, index) => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+
+        card.innerHTML = `
+          <img src="${product.img}" alt="${product.name}" id="img-${index}" style="cursor: ${isAdmin ? 'pointer' : 'default'};">
+          <h3 contenteditable="${isAdmin}" id="name-${index}">${product.name}</h3>
+          <p class="price" contenteditable="${isAdmin}" id="price-${index}">₹${product.price}</p>
+          <button class="btn" onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
+          ${isAdmin ? `<button class="btn" style="margin-top:10px; background:#e74c3c;" onclick="updateProduct(${index})">Save</button>` : ""}
+        `;
+
+        if (isAdmin) {
+          card.querySelector(`#img-${index}`).addEventListener("click", () => {
+            const newURL = prompt("Enter new image URL:", product.img);
+            if (newURL) {
+              card.querySelector(`#img-${index}`).src = newURL;
+              const products = loadProducts();
+              products[index].img = newURL;
+              saveProducts(products);
+            }
+          });
+        }
+
+        productsSection.appendChild(card);
+      });
+    }
+
+    function updateProduct(index) {
+      const name = document.getElementById(`name-${index}`).innerText.trim();
+      let priceText = document.getElementById(`price-${index}`).innerText.trim().replace(/[₹,]/g, "");
+      const price = parseInt(priceText) || 0;
+
+      const products = loadProducts();
+      products[index].name = name;
+      products[index].price = price;
+      saveProducts(products);
+
+      alert("Product updated!");
+      renderProducts();
+    }
 
     function addToCart(name, price) {
       cart.push({ name, price });
@@ -192,13 +231,9 @@
       const itemsContainer = document.getElementById('cart-items');
       itemsContainer.innerHTML = '';
       let total = 0;
-      cart.forEach((item, index) => {
+      cart.forEach((item) => {
         total += item.price;
-        itemsContainer.innerHTML += `
-          <div class="cart-item">
-            ${item.name} - ₹${item.price}
-          </div>
-        `;
+        itemsContainer.innerHTML += `<div class="cart-item">${item.name} - ₹${item.price}</div>`;
       });
 
       if (cart.length === 0) {
@@ -213,14 +248,18 @@
         alert("Cart is empty!");
         return;
       }
-      let total = cart.reduce((sum, item) => sum + item.price, 0);
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
       alert("Redirecting to payment... Total amount: ₹" + total);
-      // You can replace this with real payment gateway logic (like Razorpay, Paytm, etc.)
-      window.location.href = "payment.html"; // <-- Link to your actual payment page
+      window.location.href = "payment.html";
     }
 
-    // Open cart on icon click
+    function goToHome() {
+      window.location.href = "index.html";
+    }
+
     document.getElementById("cart-icon").addEventListener("click", toggleCart);
+
+    renderProducts();
   </script>
 
 </body>

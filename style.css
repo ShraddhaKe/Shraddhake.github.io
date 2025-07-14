@@ -59,7 +59,7 @@ html::-webkit-scrollbar-thumb{
 }
 
 .logoContent img {
-    width: 40px;
+    width: 50px;
     height: auto;
 }
 
@@ -683,3 +683,5 @@ footer a:hover {
   color: #ff6600;
   margin-bottom: 10px;
 }
+
+
