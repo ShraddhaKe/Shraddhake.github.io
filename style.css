@@ -149,52 +149,53 @@ html::-webkit-scrollbar-thumb{
     }
 }
 
+:root {
+    --black: #333;
+    --box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+}
+
 /* Home Styles */
 .home {
     min-height: 100vh;
     display: flex;
+    justify-content: center;
     align-items: center;
-    background: url(background.jpg) no-repeat;
-    background-size: cover;
-    background-position: center;
+    background: url(background.jpg) no-repeat center center/cover;
     background-color: #333446;
+    text-align: center;
 }
-
-
 
 .home .homeContent {
-    width: 100%;
-    text-align: center;
-    padding: 4rem;
+    max-width: 800px;
+    padding: 4rem 2rem;
 }
+
 .home .homeContent h2 {
-    font-size: 7rem;
+    font-size: 5rem;
     font-weight: bold;
-    text-align: center;
-    margin-bottom: 2rem;
-    line-height: 8rem;
-    color: var(--black);
+    margin-bottom: 1.5rem;
+    line-height: 6rem;
+    color: white;
     text-shadow: var(--box-shadow);
-    -webkit-text-fill-color: white;
 }
+
 .home .homeContent p {
-    font-size: 1.8rem;
-    line-height: 3rem;
-    text-align: center;
-    margin-bottom: 2rem;
-    -webkit-text-fill-color: white;
+    font-size: 1.6rem;
+    line-height: 2.5rem;
+    margin-bottom: 2.5rem;
+    color: white;
 }
 
 .home-btn {
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    gap: 1.5rem;
     flex-wrap: wrap;
 }
 
 .home-btn button {
     padding: 1rem 2.5rem;
-    font-size: 2rem;
+    font-size: 1.6rem;
     font-weight: 600;
     background-color: #eaefef;
     color: #333446;
@@ -209,12 +210,7 @@ html::-webkit-scrollbar-thumb{
     transform: scale(1.05);
 }
 
-/* Responsive Design: Tablet */
 @media (max-width: 768px) {
-    .home .homeContent {
-        padding: 2rem;
-    }
-
     .home .homeContent h2 {
         font-size: 3.5rem;
         line-height: 4.5rem;
@@ -225,6 +221,23 @@ html::-webkit-scrollbar-thumb{
         line-height: 2rem;
     }
 
+    .home-btn button {
+        width: 80%;
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .home .homeContent h2 {
+        font-size: 2.8rem;
+        line-height: 3.5rem;
+    }
+
+    .home .homeContent p {
+        font-size: 1.2rem;
+        line-height: 1.8rem;
+    }
+
     .home-btn {
         flex-direction: column;
         gap: 1rem;
@@ -232,54 +245,8 @@ html::-webkit-scrollbar-thumb{
 
     .home-btn button {
         width: 90%;
-        font-size: 1.5rem;
-    }
-}
-
-/* Responsive Design: Mobile Phones */
-@media (max-width: 480px) {
-    .home {
-        padding: 2rem 1rem;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .home .homeContent {
-        padding: 1.8rem;
-    }
-
-    .home .homeContent h2 {
-        font-size: 2.8rem;
-        line-height: 3.5rem;
-    }
-
-    .home .homeContent p {
-        font-size: 1.5rem;
-        line-height: 1.8rem;
-    }
-
-    .home-btn {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .home-btn button {
-        width: 125%;
-        font-size: 1.5rem;
         padding: 0.8rem 2rem;
     }
-}
-
-section {
-    padding: 2rem 7%;
-}
-
-.heading {
-    text-align: center;
-    font-size: 2.6rem;
-    margin-bottom: 2rem;
-    color: var(--black);
 }
 
 
